@@ -17,11 +17,11 @@ for font in enum_fonts_from_text('經傳說'):
 for font in enum_fonts_from_text('안녕조'):
     print(font.name)
 
-# For CJK fonts, there is a shortcut.
-for font in enum_fonts_from_lang('zh-Hans'):  # simplified Chinese
-    print(font.name)
-for font in enum_fonts_from_lang('ja'):  # Japanese
-    print(font.name)
+# For CJK fonts, there is another way.
+for lang in 'zh-Hant zh-Hans ko ja'.split():
+    print(f"-- list of fonts that would support [{lang}] --")
+    for font in enum_fonts_from_lang(lang):
+        print(font.name)
 ```
 
 ## Installation

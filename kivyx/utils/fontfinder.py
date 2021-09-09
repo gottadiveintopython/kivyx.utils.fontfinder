@@ -24,7 +24,7 @@ def enum_all_fonts() -> Iterator[Path]:
 @lru_cache(maxsize=1)
 def get_all_fonts() -> Sequence[Path]:
     '''
-    Returns a immutable sequence of pre-installed fonts. Return-value
+    Returns an immutable sequence of pre-installed fonts. Return-value
     will be cached.
     '''
     return tuple(enum_all_fonts())
