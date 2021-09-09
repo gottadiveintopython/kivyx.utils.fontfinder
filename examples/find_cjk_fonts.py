@@ -1,8 +1,8 @@
 from functools import reduce
-from kivyx.utils.fontfinder import fonts_from_lang
+from kivyx.utils.fontfinder import enum_fonts_from_lang
 
 lang2fonts = {
-    lang: set(fonts_from_lang(lang))
+    lang: set(enum_fonts_from_lang(lang))
     for lang in 'zh-Hant zh-Hans ko ja'.split()
 }
 for lang, fonts in lang2fonts.items():

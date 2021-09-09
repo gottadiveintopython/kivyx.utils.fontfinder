@@ -2,12 +2,12 @@ import pytest
 
 @pytest.mark.parametrize('text', ('', 'A', 'AB'))
 def test_short_text(text):
-    from kivyx.utils.fontfinder import fonts_that_are_capable_of_rendering
+    from kivyx.utils.fontfinder import enum_fonts_from_text
     with pytest.raises(ValueError):
-        next(fonts_that_are_capable_of_rendering(text))
+        next(enum_fonts_from_text(text))
 
 
 def test_duplicated_character():
-    from kivyx.utils.fontfinder import fonts_that_are_capable_of_rendering
+    from kivyx.utils.fontfinder import enum_fonts_from_text
     with pytest.raises(ValueError):
-        next(fonts_that_are_capable_of_rendering('Guido van Rossum'))
+        next(enum_fonts_from_text('Guido van Rossum'))

@@ -1,7 +1,6 @@
 __all__ =(
     'enum_all_fonts', 'get_all_fonts',
-    'fonts_that_are_capable_of_redering',
-    'fonts_from_lang', 'LANG_TEXT_MAP',
+    'enum_fonts_from_text', 'enum_fonts_from_lang',
 )
 
 from typing import Sequence, Iterator
@@ -31,14 +30,14 @@ def get_all_fonts() -> Sequence[Path]:
     return tuple(enum_all_fonts())
 
 
-def fonts_that_are_capable_of_rendering(text) -> Iterator[Path]:
+def enum_fonts_from_text(text) -> Iterator[Path]:
     '''Enumerates pre-installed fonts that are capable of rendering the given
-    `text`. The `text` must contain more than two characters without
+    ``text``. The ``text`` must contain more than two characters without
     duplication.
 
     .. note::
 
-        The longer the `text` is, the more accurate the result will be,
+        The longer the ``text`` is, the more accurate the result will be,
         but the heavier the performance will be.
     '''
     if len(text) < 3:
@@ -56,7 +55,7 @@ def fonts_that_are_capable_of_rendering(text) -> Iterator[Path]:
             except ValueError:
                 # 'NotoColorEmoji.ttf' causes the following error.
                 # ValueError: Couldn't load font file: for font /???/???/NotoColorEmoji.ttf
-                # Maybe because it's a color font? idk?
+                # Maybe because it's a colored font? idk?
                 break
             pixels_set.add(label.texture.pixels)
             if len(pixels_set) != i:
@@ -78,9 +77,6 @@ LANG_TEXT_MAP = {
 }
 
 
-def fonts_from_lang(lang) -> Iterator[Path]:
-    '''Enumerates pre-installed fonts that support the given language.
-
-    Read the `LANG_TEXT_MAP`'s code to see the list of available languages.
-    '''
-    return fonts_that_are_capable_of_rendering(LANG_TEXT_MAP[lang])
+def enum_fonts_from_lang(lang) -> Iterator[Path]:
+    '''Enumerates pre-installed fonts that support the given language. '''
+    return enum_fonts_from_text(LANG_TEXT_MAP[lang])

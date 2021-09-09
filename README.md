@@ -7,22 +7,20 @@ So you no longer need to put font files into your apk.
 ## Usage
 
 ```python
-from kivyx.utils.fontfinder import (
-    fonts_that_are_capable_of_rendering, fonts_from_lang,
-)
+from kivyx.utils.fontfinder import enum_fonts_from_text, enum_fonts_from_lang
 
 # print all the fonts that would support traditional Chinese.
-for font in fonts_that_are_capable_of_rendering('經傳說'):
+for font in enum_fonts_from_text('經傳說'):
     print(font.name)
 
 # print all the fonts that would support Korean.
-for font in fonts_that_are_capable_of_rendering('안녕조'):
+for font in enum_fonts_from_text('안녕조'):
     print(font.name)
 
 # For CJK fonts, there is a shortcut.
-for font in fonts_from_lang('zh-Hans'):  # simplified Chinese
+for font in enum_fonts_from_lang('zh-Hans'):  # simplified Chinese
     print(font.name)
-for font in fonts_from_lang('ja'):  # Japanese
+for font in enum_fonts_from_lang('ja'):  # Japanese
     print(font.name)
 ```
 
