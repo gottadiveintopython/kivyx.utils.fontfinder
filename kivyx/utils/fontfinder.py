@@ -1,3 +1,25 @@
+'''
+Font Finder
+===========
+
+Notes for maintainers
+---------------------
+
+There are two types of implementations in this module:
+
+* ``_enum_fonts_from_text_ver_safer()``, which only uses Kivy's public api.
+* ``_enum_fonts_from_text_ver_faster()``, which uses Kivy's private api.
+
+The safer one is ridiculously inefficient because:
+
+* First, it uses a Label widget yet this module doesn't need to display anything.
+* Second, it ends up copying a texture two extra times for each character.
+  (RAM -> VRAM -> RAM)
+
+Thus, the safer one is not used by the public api, and exists only for
+unittests.
+'''
+
 __all__ =(
     'enum_all_fonts', 'get_all_fonts',
     'enum_fonts_from_text', 'enum_fonts_from_lang',
@@ -6,14 +28,13 @@ __all__ =(
 from typing import Sequence, Iterator
 from functools import lru_cache
 from pathlib import Path
-from kivy.uix.label import Label
-from kivy.core.text import LabelBase
 
 SUFFIXES = ('.ttf', '.otf', '.ttc', )
 
 
 def enum_all_fonts() -> Iterator[Path]:
     '''Enumerates pre-installed fonts'''
+    from kivy.core.text import LabelBase
     suffixes = SUFFIXES
     for dir in LabelBase.get_system_fonts_dir():
         for child in Path(dir).iterdir():
@@ -30,7 +51,7 @@ def get_all_fonts() -> Sequence[Path]:
     return tuple(enum_all_fonts())
 
 
-def enum_fonts_from_text(text) -> Iterator[Path]:
+def _enum_fonts_from_text_ver_safer(text) -> Iterator[Path]:
     '''Enumerates pre-installed fonts that are capable of rendering the given
     ``text``. The ``text`` must contain more than two characters without
     duplication.
@@ -40,6 +61,7 @@ def enum_fonts_from_text(text) -> Iterator[Path]:
         The longer the ``text`` is, the more accurate the result will be,
         but the heavier the performance will be.
     '''
+    from kivy.uix.label import Label
     if len(text) < 3:
         raise ValueError(f"'text' must contain more than two characters")
     if len(set(text)) < len(text):
@@ -64,6 +86,31 @@ def enum_fonts_from_text(text) -> Iterator[Path]:
             yield path
 
 
+def _enum_fonts_from_text_ver_faster(text) -> Iterator[Path]:
+    from kivy.core.text import Label
+    if len(text) < 3:
+        raise ValueError(f"'text' must contain more than two characters")
+    if len(set(text)) < len(text):
+        raise ValueError(f"'text' should not contain duplicated characters")
+    label = Label()
+    label._size = (16, 16)
+    for path in get_all_fonts():
+        label.options['font_name'] = str(path)
+        label.resolve_font_name()
+        pixels_set = set()
+        for i, c in enumerate(text, start=1):
+            label.text = c
+            label._render_begin()
+            label._render_text(c, 0, 0)
+            pixels_set.add(label._render_end().data)
+            if len(pixels_set) != i:
+                break
+        else:
+            yield path
+
+
+_enum_fonts_from_text_ver_faster.__doc__ = _enum_fonts_from_text_ver_safer.__doc__
+enum_fonts_from_text = _enum_fonts_from_text_ver_faster
 LANG_TEXT_MAP = {
     'zh-Hant': (v := '經傳說'),
     'zh-TW': v,

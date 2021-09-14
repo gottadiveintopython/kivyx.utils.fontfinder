@@ -1,8 +1,9 @@
 # FontFinder
 
 [Youtube](https://www.youtube.com/watch?v=iBDteZhJ3kE) (video is older, and the api is different)  
-This module helps to find fonts that support arbitrary language.
-So you no longer need to put font files into your apk.
+
+This module helps to find fonts that support specified language.
+So you no longer need to put font files into your app.
 
 ## Usage
 
@@ -17,7 +18,7 @@ for font in enum_fonts_from_text('經傳說'):
 for font in enum_fonts_from_text('안녕조'):
     print(font.name)
 
-# For CJK fonts, there is another way.
+# For CJK fonts, there is an alternative.
 for lang in 'zh-Hant zh-Hans ko ja'.split():
     print(f"-- list of fonts that would support [{lang}] --")
     for font in enum_fonts_from_lang(lang):
@@ -36,10 +37,10 @@ MIT
 
 ## Test Environment
 
-- CPython 3.8.10
+- CPython 3.8.12
 - Kivy 2.0.0
 
-## Notes
+## Add your language
 
-**Current implementation is probably inefficient,**
-and might be improved by using `kivy.core.text` instead of `kivy.uix.label`.
+If you want `enum_fonts_from_lang()` to suport your language,
+open a pull request that adds key/value to `LANG_TEXT_MAP` in `fontfinder.py`.
