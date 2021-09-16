@@ -112,15 +112,12 @@ def _enum_fonts_from_text_ver_faster(text) -> Iterator[Path]:
 _enum_fonts_from_text_ver_faster.__doc__ = _enum_fonts_from_text_ver_safer.__doc__
 enum_fonts_from_text = _enum_fonts_from_text_ver_faster
 LANG_TEXT_MAP = {
-    'zh-Hant': (v := '經傳說'),
-    'zh-TW': v,
-    'zh-HK': v,
-    'zh-MO': v,
-    'zh-Hans': (v := '经传说'),
-    'zh-CN': v,
-    'zh-SG': v,
+    'ar': 'الجزيرة',
+    'hi': 'भारत',
+    'ja': '経伝説あ',
     'ko': '안녕조',
-    'ja': '経伝説',
+    'zh-Hans': '经传说',
+    'zh-Hant': '經傳說',
 }
 
 
