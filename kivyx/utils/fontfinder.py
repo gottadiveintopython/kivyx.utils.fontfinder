@@ -30,15 +30,20 @@ from functools import lru_cache
 from pathlib import Path
 
 SUFFIXES = {'.ttf', '.otf', '.ttc', }
+EXCLUDES = {
+    'NotoColorEmoji.ttf',            # SDL2 text provider cannot render this.
+    'DroidSansFallbackFull.ttf',     # Does not contain English letters.
+}
 
 
 def enum_all_fonts() -> Iterator[Path]:
     '''Enumerates pre-installed fonts'''
     from kivy.core.text import LabelBase
     suffixes = SUFFIXES
+    excludes = EXCLUDES
     for dir in LabelBase.get_system_fonts_dir():
         for child in Path(dir).iterdir():
-            if child.suffix in suffixes:
+            if child.suffix in suffixes and child.name not in excludes:
                 yield child
 
 
@@ -72,13 +77,7 @@ def _enum_fonts_from_text_ver_safer(text) -> Iterator[Path]:
         pixels_set = set()
         for i, c in enumerate(text, start=1):
             label.text = c
-            try:
-                label.texture_update()
-            except ValueError:
-                # 'NotoColorEmoji.ttf' causes the following error.
-                # ValueError: Couldn't load font file: for font /???/???/NotoColorEmoji.ttf
-                # Maybe because it's a colored font? idk?
-                break
+            label.texture_update()
             pixels_set.add(label.texture.pixels)
             if len(pixels_set) != i:
                 break
