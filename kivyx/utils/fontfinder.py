@@ -25,7 +25,7 @@ __all__ =(
     'enum_fonts_from_text', 'enum_fonts_from_lang',
 )
 
-from typing import Sequence, Iterator
+from typing import Tuple, Iterator
 from functools import lru_cache
 from pathlib import Path
 
@@ -48,7 +48,7 @@ def enum_all_fonts() -> Iterator[Path]:
 
 
 @lru_cache(maxsize=1)
-def get_all_fonts() -> Sequence[Path]:
+def get_all_fonts() -> Tuple[Path]:
     '''
     Returns an immutable sequence of pre-installed fonts. Return-value
     will be cached.
@@ -86,12 +86,12 @@ def _enum_fonts_from_text_ver_safer(text) -> Iterator[Path]:
 
 
 def _enum_fonts_from_text_ver_faster(text) -> Iterator[Path]:
-    from kivy.core.text import Label
+    from kivy.core.text import Label as CoreLabel
     if len(text) < 3:
         raise ValueError(f"'text' must contain more than two characters")
     if len(set(text)) < len(text):
         raise ValueError(f"'text' should not contain duplicated characters")
-    label = Label()
+    label = CoreLabel()
     label._size = (16, 16)
     for path in get_all_fonts():
         label.options['font_name'] = str(path)
