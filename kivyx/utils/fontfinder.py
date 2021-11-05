@@ -29,7 +29,7 @@ from typing import Sequence, Iterator
 from functools import lru_cache
 from pathlib import Path
 
-SUFFIXES = ('.ttf', '.otf', '.ttc', )
+SUFFIXES = {'.ttf', '.otf', '.ttc', }
 
 
 def enum_all_fonts() -> Iterator[Path]:
@@ -112,12 +112,17 @@ def _enum_fonts_from_text_ver_faster(text) -> Iterator[Path]:
 _enum_fonts_from_text_ver_faster.__doc__ = _enum_fonts_from_text_ver_safer.__doc__
 enum_fonts_from_text = _enum_fonts_from_text_ver_faster
 LANG_TEXT_MAP = {
-    'ar': 'الجزيرة',
-    'hi': 'भारत',
-    'ja': '経伝説あ',
-    'ko': '안녕조',
-    'zh-Hans': '经传说',
-    'zh-Hant': '經傳說',
+    'ar': 'الجزيرةAB',
+    'hi': 'भारतAB',
+    'ja': '経伝説あAB',
+    'ko': '안녕조AB',
+    'zh-Hans': (v := '哪经传说AB'),
+    'zh-CN': v,
+    'zh-SG': v,
+    'zh-Hant': (v := '哪經傳說AB'),
+    'zh-TW': v,
+    'zh-HK': v,
+    'zh-MO': v,
 }
 
 
