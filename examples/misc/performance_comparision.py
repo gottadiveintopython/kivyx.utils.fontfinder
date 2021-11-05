@@ -2,10 +2,10 @@ from timeit import timeit
 from kivyx.utils.fontfinder import (
     _enum_fonts_from_text_ver_faster as faster_ver,
     _enum_fonts_from_text_ver_safer as safer_ver,
-    LANG_TEXT_MAP,
+    DISCRIMINANT,
 )
 
-text = LANG_TEXT_MAP['zh-Hant']
+text = DISCRIMINANT['zh-Hant']
 
 # call one so that font files are cached
 tuple(faster_ver(text))

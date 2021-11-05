@@ -43,4 +43,4 @@ MIT
 ## Add your language
 
 If you want `enum_fonts_from_lang()` to suport your language,
-open a pull request that adds key/value to `LANG_TEXT_MAP` in `fontfinder.py`.
+open a pull request that adds key/value to `DISCRIMINANT` in `fontfinder.py`.

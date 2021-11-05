@@ -111,7 +111,7 @@ def _enum_fonts_from_text_ver_faster(text) -> Iterator[Path]:
 
 _enum_fonts_from_text_ver_faster.__doc__ = _enum_fonts_from_text_ver_safer.__doc__
 enum_fonts_from_text = _enum_fonts_from_text_ver_faster
-LANG_TEXT_MAP = {
+DISCRIMINANT = {
     'ar': 'الجزيرةAB',
     'hi': 'भारतAB',
     'ja': '経伝説あAB',
@@ -128,4 +128,4 @@ LANG_TEXT_MAP = {
 
 def enum_fonts_from_lang(lang) -> Iterator[Path]:
     '''Enumerates pre-installed fonts that support the given language. '''
-    return enum_fonts_from_text(LANG_TEXT_MAP[lang])
+    return enum_fonts_from_text(DISCRIMINANT[lang])

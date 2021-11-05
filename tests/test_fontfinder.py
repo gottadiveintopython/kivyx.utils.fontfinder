@@ -17,7 +17,7 @@ def test_the_faster_version_produces_the_same_result_as_the_safer_version():
     from kivyx.utils.fontfinder import (
         _enum_fonts_from_text_ver_safer as safer_ver,
         _enum_fonts_from_text_ver_faster as faster_ver,
-        LANG_TEXT_MAP,
+        DISCRIMINANT,
     )
-    for text in {text for text in LANG_TEXT_MAP.values()}:
+    for text in {text for text in DISCRIMINANT.values()}:
         assert tuple(safer_ver(text)) == tuple(faster_ver(text))
