@@ -1,3 +1,5 @@
+(This project was archived in favor of https://github.com/gottadiveintopython/i18n.)
+
 # FontFinder
 
 [Youtube](https://www.youtube.com/watch?v=iBDteZhJ3kE) (video is older, and the api is different)  
